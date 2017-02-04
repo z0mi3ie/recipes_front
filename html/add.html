@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add a recipe</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../js/recipes.js"></script>
+</head>
+
+<body>
+  
+  <h1>Add a Recipe</h1>
+
+  Name: 
+  <br>
+  <input id="recipe_title_input" type="text" name="recipe_title_input">
+  <br>
+  
+  Description: 
+  <br>
+  <input id="recipe_description_input" type="text" name="recipe_description_input">
+  <br>
+
+  Category: 
+  <br>
+  <input list="categories" name="categories">
+  <datalist id="categories" name="categories">
+    <option value="Sanwhich">
+    <option value="Dinner">
+    <option value="Side Dish">
+    <option value="Lunch">
+    <option value="Breakfast">
+  </datalist>
+  <br>
+  
+  <hr>
+  Add ingredient: 
+  <br>
+  <input id="add_ingredient_input" type="text" name="add_ingredient_input">
+  <br>
+
+  <ul id="ingredient-list">
+  </ul>
+  
+  <hr>
+  Add step: 
+  <br>
+  <input id="add-step-input" type="text" name="add_step_input">
+  <br>
+
+  <ol id="step-list">
+  </ol>
+
+  
+  <br>
+  <br>
+  <button id="submit-recipe-btn">Submit Recipe</button>
+  <hr>
+  Testing area
+  <button id="test_button">Test Button</button>
+</body>
+
+
+</html>
