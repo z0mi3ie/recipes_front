@@ -10,7 +10,7 @@
 console.log("---- Add Recipe -----")
 
 var recipe = {
-    "title": "",
+    "name": "",
     "description": "",
     "category": "",
     "ingredients": [],
@@ -24,9 +24,9 @@ $(document).ready(function() {
         debug_recipe();
     });
 
-    // The text has changed in the recipe_title_input text
-    $("#recipe_title_input").keyup(function() {
-        recipe["title"] = $(this).val();
+    // The text has changed in the recipe_name_input text
+    $("#recipe_name_input").keyup(function() {
+        recipe["name"] = $(this).val();
         debug_recipe();
     });
 
@@ -134,7 +134,12 @@ $(document).ready(function() {
     $("#submit-recipe-btn").click(function() {
         debug_recipe();
         // TODO: Do validation here, final check that all fields are golden 
+		submitRecipe()	
     });
+	
+	function submitRecipe() {
+		makeCorsRequest("POST", "http://localhost:8080/recipe")
+	};
 
     function generateHTMLListItems(listId, textId, field) {
         $("#"+listId).empty();
@@ -161,6 +166,46 @@ $(document).ready(function() {
 
         recipe[field] = newList;
     }
+
+	// Create the XHR object.
+	function createCORSRequest(method, url) {
+	  var xhr = new XMLHttpRequest();
+	  if ("withCredentials" in xhr) {
+		// XHR for Chrome/Firefox/Opera/Safari.
+		xhr.open(method, url, true);
+	  } else if (typeof XDomainRequest != "undefined") {
+		// XDomainRequest for IE.
+		xhr = new XDomainRequest();
+		xhr.open(method, url);
+	  } else {
+		// CORS not supported.
+		xhr = null;
+	  }
+	  return xhr;
+	}
+
+	// Make the actual CORS request.
+	function makeCorsRequest(method, url) {
+	  // This is a sample server that supports CORS.
+
+	  var xhr = createCORSRequest(method, url);
+	  if (!xhr) {
+		alert('CORS not supported');
+		return;
+	  }
+
+	  // Response handlers.
+	  xhr.onload = function() {
+		var text = xhr.responseText;
+		alert('Response from CORS request to ' + url + ' request text ' + text);
+	  };
+
+	  xhr.onerror = function() {
+		alert('Woops, there was an error making the request.');
+	  };
+
+	  xhr.send(JSON.stringify(recipe));
+	}
 });
 
 
@@ -170,44 +215,3 @@ function debug_recipe() {
     console.log(recipe)
     console.log("=============================")
 };
-
-/* --------- Graveyard
-//Remove the element from html
-$(this).closest('li').remove();
-
-function set_non_editable_ingredients() {
-    var ingredientListElements = $('#ingredient-list li');
-    ingredientListElements.each(function() {
-        ingredientText = $(this).children(".ingredient").attr("contenteditable", "false");
-        newList.push(ingredientText)
-    });
-}
-
-function update_recipe_ingredient_list() {
-    var ingredientListElements = $('#ingredient-list li');
-
-    var newList = [];
-    ingredientListElements.each(function() {
-        console.log($(this).children(".ingredient").text());
-        ingredientText = $(this).children(".ingredient").text();
-        newList.push(ingredientText)
-    });
-
-    recipe["ingredients"] = newList;
-}
-
-function update_recipe_step_list() {
-    var stepListElements = $('#step-list li');
-
-    var newList = [];
-    stepListElements.each(function() {
-        console.log($(this).children(".step").text());
-        stepText = $(this).children(".step").text();
-        newList.push(stepText)
-    });
-
-    recipe["steps"] = newList;
-}
-
-
-*/
